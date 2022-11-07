@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { FaHeart, FaRegHeart } from 'react-icons/fa';
 import { UserAuth } from '../context/AuthContext';
 import { db } from '../firebase';
-import { arrayUnion, doc, updateDoc } from 'firebase/firestore';
+import { arrayUnion, doc, setDoc } from 'firebase/firestore';
 
 const Movie = ({ item }) => {
   const [like, setLike] = useState(false);
@@ -15,7 +15,7 @@ const Movie = ({ item }) => {
     if (user?.email) {
       setLike(!like);
       setSaved(true);
-      await updateDoc(movieID, {
+      await setDoc(movieID, {
         savedShows: arrayUnion({
           id: item.id,
           title: item.title,
@@ -26,6 +26,8 @@ const Movie = ({ item }) => {
       alert('Please log in to save a movie');
     }
   };
+
+  console.log(like, saved);
 
   return (
     <div className='w-[160px] sm:w-[200px] md:w-[240px] lg:w-[280px] inline-block cursor-pointer relative p-2'>
